@@ -1,3 +1,12 @@
+"""
+==========================================================
+        PROJETO: AUTOMAÇÃO INDUSTRIAL - PYTHON
+==========================================================
+Desenvolvido por: Lígia Lopes
+Foco: Qualidade e Gestão de Armazenamento
+==========================================================
+"""
+
 # Você foi convidado por uma empresa do setor industrial para prototipar uma solução de
 # automação digital que auxilie no controle de produção e qualidade das peças fabricadas
 # em sua linha de montagem. Atualmente, o processo de inspeção é feito manualmente, o
