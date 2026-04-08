@@ -107,4 +107,25 @@ def remover_peca():
             print(f"✅ Peça {id_remover} removida com sucesso!")
             return
             
-    print("⚠️ ID não encontrado.")
+     print("⚠️ ID não encontrado.")
+
+
+     def mostrar_status_caixas():
+    """Opção 4: Mostra a situação logística atual"""
+    print(f"\n📦 Caixas fechadas e prontas: {total_caixas}")
+    print(f"📦 Peças na caixa atual (em enchimento): {len(caixa_atual)}/10")
+
+def gerar_relatorio_final():
+    """Opção 5: Exibe o consolidado total antes de encerrar o programa"""
+    print("\n" + "█"*30)
+    print("      RELATÓRIO CONSOLIDADO")
+    print("█"*30)
+    print(f"TOTAL APROVADAS: {len(pecas_aprovadas)}")
+    print(f"TOTAL REPROVADAS: {len(pecas_reprovadas)}")
+    print(f"QUANTIDADE DE CAIXAS UTILIZADAS: {total_caixas}")
+    
+    if pecas_reprovadas:
+        print("\nMOTIVOS DE REPROVAÇÃO:")
+        for r in pecas_reprovadas:
+            print(f"- Peça {r['id']}: {r['motivo']}")
+    print("█"*30)
