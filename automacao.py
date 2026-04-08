@@ -69,3 +69,42 @@ def cadastrar_peca():
         motivo_str = " | ".join(motivos)
         pecas_reprovadas.append({"id": id_peca, "motivo": motivo_str})
         print(f"❌ Peça REPROVADA. Motivo: {motivo_str}")
+
+
+        def listar_pecas():
+    """Opção 2: Mostra todas as peças processadas até o momento"""
+    print("\n" + "="*20)
+    print("PEÇAS APROVADAS")
+    if not pecas_aprovadas:
+        print("Nenhuma peça aprovada.")
+    for p in pecas_aprovadas:
+        print(f"ID: {p['id']} | {p['peso']}g | {p['cor']} | {p['comprimento']}cm")
+
+    print("\nPEÇAS REPROVADAS")
+    if not pecas_reprovadas:
+        print("Nenhuma peça reprovada.")
+    for p in pecas_reprovadas:
+        print(f"ID: {p['id']} | Motivo: {p['motivo']}")
+    print("="*20)
+
+def remover_peca():
+    """Opção 3: Permite excluir uma peça do sistema pelo ID"""
+    id_remover = input("\nDigite o ID da peça que deseja remover: ")
+    
+    # Busca na lista de aprovadas
+    for p in pecas_aprovadas:
+        if p['id'] == id_remover:
+            pecas_aprovadas.remove(p)
+            if p in caixa_atual:
+                caixa_atual.remove(p)
+            print(f"✅ Peça {id_remover} removida com sucesso!")
+            return
+
+    # Busca na lista de reprovadas
+    for p in pecas_reprovadas:
+        if p['id'] == id_remover:
+            pecas_reprovadas.remove(p)
+            print(f"✅ Peça {id_remover} removida com sucesso!")
+            return
+            
+    print("⚠️ ID não encontrado.")
