@@ -25,3 +25,10 @@ Foco: Qualidade e Gestão de Armazenamento
 # - Total de peças aprovadas
 # - Total de peças reprovadas e o motivo da reprovação
 # - Quantidade de caixas utilizadas
+
+# --- VARIÁVEIS DE CONTROLE ---
+pecas_aprovadas = []  # Lista para armazenar dicionários das peças boas
+pecas_reprovadas = [] # Lista para armazenar o ID e o motivo do erro
+caixa_atual = []      # Lista temporária para as peças que estão na "esteira"
+total_caixas = 0      # Contador de caixas fechadas
+
