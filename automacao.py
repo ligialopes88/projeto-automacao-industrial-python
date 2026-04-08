@@ -1,131 +1,151 @@
 """
-==========================================================
-        PROJETO: AUTOMAÇÃO INDUSTRIAL - PYTHON
-==========================================================
-Desenvolvido por: Lígia Lopes
-Foco: Qualidade e Gestão de Armazenamento
-==========================================================
+# ==========================================================
+#        PROJETO: AUTOMAÇÃO INDUSTRIAL - PYTHON
+# ==========================================================
+# Desenvolvido por: Lígia Lopes
+# Foco: Qualidade e Gestão de Armazenamento
+# ==========================================================
 """
 
-# Você foi convidado por uma empresa do setor industrial para prototipar uma solução de
-# automação digital que auxilie no controle de produção e qualidade das peças fabricadas
-# em sua linha de montagem. Atualmente, o processo de inspeção é feito manualmente, o
-# que gera atrasos, falhas de conferência e aumento no custo de operação.
-# Sua missão é desenvolver em Python um sistema lógico capaz de:
-# - Receber os dados de cada peça produzida (id, peso, cor e comprimento).
-# - Avaliar automaticamente se a peça está aprovada ou reprovada, de acordo com
-# critérios de qualidade pré-definidos:
-# - Peso entre 95g e 105g
-# - Cor azul ou verde
-# - Comprimento entre 10cm e 20cm
-# - Armazenar as peças aprovadas em caixas de capacidade limitada (10 peças por
-# caixa).
-# - Fechar a caixa quando atingir a capacidade máxima e iniciar uma nova.
-# - Gerar relatórios consolidados com:
-# - Total de peças aprovadas
-# - Total de peças reprovadas e o motivo da reprovação
-# - Quantidade de caixas utilizadas
-
-# --- VARIÁVEIS DE CONTROLE ---
-pecas_aprovadas = []  # Lista para armazenar dicionários das peças boas
-pecas_reprovadas = [] # Lista para armazenar o ID e o motivo do erro
-caixa_atual = []      # Lista temporária para as peças que estão na "esteira"
-total_caixas = 0      # Contador de caixas fechadas
-
+# --- VARIÁVEIS DE CONTROLO ---
+# Listas para armazenar os dados durante a execução
+pecas_aprovadas = []  # Armazena dicionários das peças que passaram na qualidade
+pecas_reprovadas = [] # Armazena o ID e o motivo da reprovação
+caixa_atual = []      # Controla as peças que estão a entrar na caixa agora
+total_caixas = 0      # Contador de caixas enviadas para o armazém
 
 def cadastrar_peca():
+    """Opção 1: Recebe dados, valida a qualidade e gere o armazenamento"""
     global total_caixas, caixa_atual
     
     print("\n>>> INICIANDO CADASTRO DE PEÇA <<<")
-    id_peca = input("ID da peça: ")
-    peso = float(input("Peso (g): "))
-    cor = input("Cor (azul/verde): ").strip().lower()
-    comprimento = float(input("Comprimento (cm): "))
+    try:
+        id_peca = input("ID da peça: ")
+        peso = float(input("Peso (g): "))
+        cor = input("Cor (azul/verde): ").strip().lower()
+        comprimento = float(input("Comprimento (cm): "))
 
-    # 1. Avaliação Automática de Qualidade [cite: 10, 11, 13, 14]
-    motivos = []
-    if not (95 <= peso <= 105):
-        motivos.append(f"Peso fora do padrão ({peso}g)")
-    if cor not in ['azul', 'verde']:
-        motivos.append(f"Cor inválida ({cor})")
-    if not (10 <= comprimento <= 20):
-        motivos.append(f"Comprimento fora do padrão ({comprimento}cm)")
+        # 1. Avaliação Automática de Qualidade
+        motivos = []
+        if not (95 <= peso <= 105):
+            motivos.append(f"Peso fora do padrão ({peso}g)")
+        if cor not in ['azul', 'verde']:
+            motivos.append(f"Cor inválida ({cor})")
+        if not (10 <= comprimento <= 20):
+            motivos.append(f"Comprimento fora do padrão ({comprimento}cm)")
 
-    # 2. Processamento do Resultado 
-    if not motivos:
-        # Se aprovada, entra no estoque e na caixa
-        peca = {"id": id_peca, "peso": peso, "cor": cor, "comprimento": comprimento}
-        pecas_aprovadas.append(peca)
-        caixa_atual.append(peca)
-        print(f"✅ Peça {id_peca} APROVADA!")
+        # 2. Processamento do Resultado
+        if not motivos:
+            # Se aprovada, entra no sistema e na caixa logística
+            peca = {"id": id_peca, "peso": peso, "cor": cor, "comprimento": comprimento}
+            pecas_aprovadas.append(peca)
+            caixa_atual.append(peca)
+            print(f"✅ Peça {id_peca} APROVADA!")
 
-        # 3. Automação do Armazenamento (Limite de 10 peças) 
-        if len(caixa_atual) == 10:
-            total_caixas += 1
-            caixa_atual = [] # Esvazia a caixa atual para iniciar uma nova
-            print(f"📦 CAIXA FECHADA! Total de caixas: {total_caixas}")
-    else:
-        # Se reprovada, registra o motivo para o relatório [cite: 20]
-        motivo_str = " | ".join(motivos)
-        pecas_reprovadas.append({"id": id_peca, "motivo": motivo_str})
-        print(f"❌ Peça REPROVADA. Motivo: {motivo_str}")
+            # 3. Automação do Armazenamento (Máximo 10 peças por caixa)
+            if len(caixa_atual) == 10:
+                total_caixas += 1
+                caixa_atual = [] # Reinicia a contagem para a próxima caixa
+                print(f"📦 CAIXA FECHADA! Total de caixas prontas: {total_caixas}")
+        else:
+            # Se reprovada, regista o erro para o relatório industrial
+            motivo_str = " | ".join(motivos)
+            pecas_reprovadas.append({"id": id_peca, "motivo": motivo_str})
+            print(f"❌ Peça REPROVADA. Motivo: {motivo_str}")
+            
+    except ValueError:
+        print("⚠️ Erro: Insira valores numéricos válidos para peso e comprimento.")
 
-
-        def listar_pecas():
-    """Opção 2: Mostra todas as peças processadas até o momento"""
-    print("\n" + "="*20)
-    print("PEÇAS APROVADAS")
+def listar_pecas():
+    """Opção 2: Lista o estado atual de toda a produção"""
+    print("\n" + "="*30)
+    print("      ESTADO DA PRODUÇÃO")
+    print("="*30)
+    
+    print("\n[PEÇAS APROVADAS]")
     if not pecas_aprovadas:
-        print("Nenhuma peça aprovada.")
+        print("Nenhuma peça aprovada em stock.")
     for p in pecas_aprovadas:
-        print(f"ID: {p['id']} | {p['peso']}g | {p['cor']} | {p['comprimento']}cm")
+        print(f"ID: {p['id']} | {p['peso']}g | Cor: {p['cor']} | {p['comprimento']}cm")
 
-    print("\nPEÇAS REPROVADAS")
+    print("\n[PEÇAS REPROVADAS]")
     if not pecas_reprovadas:
-        print("Nenhuma peça reprovada.")
+        print("Nenhuma falha de qualidade registada.")
     for p in pecas_reprovadas:
-        print(f"ID: {p['id']} | Motivo: {p['motivo']}")
-    print("="*20)
+        print(f"ID: {p['id']} | Falha: {p['motivo']}")
+    print("="*30)
 
 def remover_peca():
-    """Opção 3: Permite excluir uma peça do sistema pelo ID"""
+    """Opção 3: Permite remover um registo incorreto pelo ID"""
     id_remover = input("\nDigite o ID da peça que deseja remover: ")
     
-    # Busca na lista de aprovadas
+    # Procura na lista de aprovadas
     for p in pecas_aprovadas:
         if p['id'] == id_remover:
             pecas_aprovadas.remove(p)
             if p in caixa_atual:
                 caixa_atual.remove(p)
-            print(f"✅ Peça {id_remover} removida com sucesso!")
+            print(f"✅ Registo da peça {id_remover} removido.")
             return
 
-    # Busca na lista de reprovadas
+    # Procura na lista de reprovadas
     for p in pecas_reprovadas:
         if p['id'] == id_remover:
             pecas_reprovadas.remove(p)
-            print(f"✅ Peça {id_remover} removida com sucesso!")
+            print(f"✅ Registo da peça {id_remover} removido.")
             return
             
-     print("⚠️ ID não encontrado.")
+    # Se chegar aqui, o ID não existe (Esta linha deve estar indentada!)
+    print("⚠️ ID não encontrado no sistema.")
 
-
-     def mostrar_status_caixas():
-    """Opção 4: Mostra a situação logística atual"""
-    print(f"\n📦 Caixas fechadas e prontas: {total_caixas}")
-    print(f"📦 Peças na caixa atual (em enchimento): {len(caixa_atual)}/10")
+def mostrar_status_caixas():
+    """Opção 4: Mostra a situação logística atual das caixas"""
+    print(f"\n📦 Caixas prontas para expedição: {total_caixas}")
+    print(f"📦 Peças na esteira/caixa atual: {len(caixa_atual)}/10")
 
 def gerar_relatorio_final():
-    """Opção 5: Exibe o consolidado total antes de encerrar o programa"""
-    print("\n" + "█"*30)
-    print("      RELATÓRIO CONSOLIDADO")
-    print("█"*30)
-    print(f"TOTAL APROVADAS: {len(pecas_aprovadas)}")
-    print(f"TOTAL REPROVADAS: {len(pecas_reprovadas)}")
-    print(f"QUANTIDADE DE CAIXAS UTILIZADAS: {total_caixas}")
+    """Opção 5: Exibe o balanço final antes do encerramento"""
+    print("\n" + "█"*40)
+    print("       RELATÓRIO FINAL DE EFICIÊNCIA")
+    print("█"*40)
+    print(f"TOTAL DE PEÇAS APROVADAS:   {len(pecas_aprovadas)}")
+    print(f"TOTAL DE PEÇAS REPROVADAS:  {len(pecas_reprovadas)}")
+    print(f"TOTAL DE CAIXAS UTILIZADAS: {total_caixas}")
     
     if pecas_reprovadas:
-        print("\nMOTIVOS DE REPROVAÇÃO:")
+        print("\nDETALHE DAS REPROVAÇÕES:")
         for r in pecas_reprovadas:
             print(f"- Peça {r['id']}: {r['motivo']}")
-    print("█"*30)
+    print("█"*40)
+
+def main():
+    """Ciclo principal do programa com menu interativo"""
+    while True:
+        print("\n" + "═"*35)
+        print("   GESTÃO DE QUALIDADE INDUSTRIAL")
+        print("═"*35)
+        print("1. Registar nova peça")
+        print("2. Listar produção completa")
+        print("3. Remover peça por ID")
+        print("4. Verificar status das caixas")
+        print("5. Gerar relatório e Encerrar")
+        
+        opcao = input("\nSelecione uma operação (1-5): ")
+
+        if opcao == '1':
+            cadastrar_peca()
+        elif opcao == '2':
+            listar_pecas()
+        elif opcao == '3':
+            remover_peca()
+        elif opcao == '4':
+            mostrar_status_caixas()
+        elif opcao == '5':
+            gerar_relatorio_final()
+            print("\nSistema encerrado com sucesso. Bom trabalho!")
+            break
+        else:
+            print("\n⚠️ Opção inválida. Tente novamente.")
+
+if __name__ == "__main__":
+    main()
