@@ -43,7 +43,7 @@ def cadastrar_peca():
             print(f"✅ Peça {id_peca} APROVADA!")
 
             # 3. Automação do Armazenamento (Máximo 10 peças por caixa)
-            if len(caixa_atual) == 10:
+            if len(caixa_atual) == 2:
                 total_caixas += 1
                 caixa_atual = [] # Reinicia a contagem para a próxima caixa
                 print(f"📦 CAIXA FECHADA! Total de caixas prontas: {total_caixas}")
