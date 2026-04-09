@@ -14,6 +14,7 @@ manual. O sistema deve:
 - Gerenciar o armazenamento automático em caixas de 10 unidades.
 - Permitir a rastreabilidade e remoção de registros.
 - Gerar relatórios de eficiência produtiva.
+
 ==========================================================
 """
 
