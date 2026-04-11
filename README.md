@@ -29,18 +29,16 @@ Cor: Exclusivamente "azul" ou "verde".
 Comprimento: Entre 10cm e 20cm.
 
 
-💻 Exemplos de Uso
+## 💻 Exemplos de Uso
 
-Entrada de Dados (Aprovação)
-- **ID:** 001
-- **Peso:** 100
-- **Cor:** verde
-- **Comprimento:** 15
-**Saída:** `✅ Peça 001 APROVADA e enviada para a caixa!`
+Exemplo 1: Cadastro com Aprovação
+- **Entrada:** ID: 101 | Peso: 100 | Cor: azul | Comprimento: 15
+- **Saída:** `✅ Peça 101 APROVADA e enviada para a caixa!`
 
-Entrada de Dados (Reprovação)
-- **ID:** 002
-- **Peso:** 80
-- **Cor:** vermelho
-- **Comprimento:** 5
-**Saída:** `❌ Peça REPROVADA. Motivos: Peso (80g) | Cor (vermelho) | Comprimento (5cm)`
+Exemplo 2: Cadastro com Reprovação
+- **Entrada:** ID: 102 | Peso: 80 | Cor: vermelho | Comprimento: 5
+- **Saída:** `❌ Peça REPROVADA. Motivos: Peso (80g) | Cor (vermelho) | Comprimento (5cm)`
+
+Exemplo 3: Fechamento de Caixa
+- **Ação:** Cadastrar a 10ª peça aprovada.
+- **Saída:** `📦 [ALERTA] CAIXA FECHADA! Total de caixas prontas: 1`
