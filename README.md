@@ -16,11 +16,8 @@ python automacao.py
 
 🛠️ Funcionalidades
 Controle de Qualidade: Validação automática de peso (95g-105g), cor (azul/verde) e comprimento (10cm-20cm).
-
 Gestão de Estoque: Contagem automática de peças aprovadas e fechamento de caixas a cada 10 unidades.
-
 Monitoramento: Visualização em tempo real do status das caixas e peças na esteira.
-
 Relatórios: Consolidação de dados de produtividade e motivos de reprovação.
 
 
@@ -28,7 +25,22 @@ Relatórios: Consolidação de dados de produtividade e motivos de reprovação.
 Para que uma peça seja considerada APROVADA, ela deve cumprir:
 
 Peso: Entre 95g e 105g.
-
 Cor: Exclusivamente "azul" ou "verde".
-
 Comprimento: Entre 10cm e 20cm.
+
+
+💻 Exemplos de Uso
+
+Entrada de Dados (Aprovação)
+- **ID:** 001
+- **Peso:** 100
+- **Cor:** verde
+- **Comprimento:** 15
+**Saída:** `✅ Peça 001 APROVADA e enviada para a caixa!`
+
+Entrada de Dados (Reprovação)
+- **ID:** 002
+- **Peso:** 80
+- **Cor:** vermelho
+- **Comprimento:** 5
+**Saída:** `❌ Peça REPROVADA. Motivos: Peso (80g) | Cor (vermelho) | Comprimento (5cm)`
